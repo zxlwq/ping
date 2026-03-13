@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>科技刘 - 防失联发布页</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap"
+    />
+    <link rel="icon" type="image/webp" href="./zxlwq.webp" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="min-h-screen text-slate-100">
+    <div class="bg-glow">
+      <span class="blob blob-a"></span>
+      <span class="blob blob-b"></span>
+      <span class="blob blob-c"></span>
+    </div>
+
+    <div id="toast" class="toast-container">
+      <i class="fa-solid fa-circle-check text-emerald-400"></i>
+      <span id="toast-msg" class="text-sm font-medium">操作成功</span>
+    </div>
+
+    <header class="w-full py-6 px-4">
+      <div
+        class="max-w-6xl mx-auto flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
+      >
+        <div class="flex items-center gap-3">
+          <div class="brand-icon">
+            <img
+              src="./zxlwq.webp"
+              alt="Logo"
+              width="44"
+              height="44"
+              loading="eager"
+            />
+          </div>
+          <div>
+            <h1 class="text-xl font-semibold tracking-wide">
+              科技刘
+            </h1>
+            <p class="text-sm text-slate-400">智能线路检测</p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-3">
+          <button
+            id="fast-btn"
+            class="action-btn action-btn-primary"
+            type="button"
+          >
+            <i class="fa-solid fa-bolt"></i>
+            直达最快节点
+          </button>
+          <button
+            id="auto-btn"
+            class="action-btn action-btn-alt"
+            type="button"
+          >
+            <i class="fa-solid fa-pause"></i>
+            自动刷新
+          </button>
+          <button
+            id="refresh-btn"
+            class="action-btn"
+            type="button"
+          >
+            <i class="fa-solid fa-rotate-right"></i>
+            立即刷新
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex-1 px-4 pb-10">
+      <section
+        class="max-w-6xl mx-auto grid gap-6 lg:grid-cols-[1.3fr_0.7fr]"
+      >
+        <div class="glass-panel p-6">
+          <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div class="flex items-center gap-3">
+              <div id="status-icon-bg" class="status-icon-bg">
+                <i
+                  id="status-icon"
+                  class="fa-solid fa-heart-pulse text-emerald-400 text-lg animate-pulse"
+                ></i>
+              </div>
+              <div>
+                <h2 class="text-lg font-semibold">线路健康度</h2>
+                <p id="system-status" class="text-sm text-slate-400">
+                  系统初始化中
+                </p>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-6">
+              <div>
+                <p class="text-xs uppercase text-slate-400">在线节点</p>
+                <p id="online-count" class="stat-number">0</p>
+              </div>
+              <div>
+                <p class="text-xs uppercase text-slate-400">平均延迟</p>
+                <p id="avg-latency" class="stat-number">N/A</p>
+              </div>
+              <div>
+                <p class="text-xs uppercase text-slate-400">可用率</p>
+                <p id="online-rate" class="stat-number">0%</p>
+              </div>
+            </div>
+          </div>
+          <div class="progress-wrap">
+            <div id="timer-bar" class="timer-bar"></div>
+          </div>
+        </div>
+
+        <aside class="glass-panel p-6">
+          <h3 class="text-lg font-semibold mb-4">今日提示</h3>
+          <ul class="text-sm text-slate-300 space-y-3 leading-relaxed">
+            <li>每 10 秒自动检测一次，支持一键暂停。</li>
+            <li>延迟低于 120ms 的节点会被标记为极速。</li>
+            <li>点击卡片可访问节点，右侧可复制主域名。</li>
+          </ul>
+        </aside>
+      </section>
+
+      <section class="max-w-6xl mx-auto mt-8">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-semibold">线路节点</h3>
+          <span class="text-xs text-slate-400">
+            点击卡片访问，自动刷新中
+          </span>
+        </div>
+        <div
+          id="node-container"
+          class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+        ></div>
+      </section>
+
+      <section class="max-w-6xl mx-auto mt-10">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-semibold">常用域名</h3>
+          <span class="text-xs text-slate-400">一键复制</span>
+        </div>
+        <div class="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <button class="domain-card" data-copy="https://zxlwq.dpdns.org">
+            <div>
+              <p class="text-sm font-semibold">主域名</p>
+              <p class="text-xs text-slate-400">zxlwq.dpdns.org</p>
+            </div>
+            <i class="fa-regular fa-copy text-slate-300"></i>
+          </button>
+          <button class="domain-card" data-copy="https://zxlwq.de5.net">
+            <div>
+              <p class="text-sm font-semibold">次域名</p>
+              <p class="text-xs text-slate-400">zxlwq.de5.net</p>
+            </div>
+            <i class="fa-regular fa-copy text-slate-300"></i>
+          </button>
+          <button class="domain-card" data-copy="https://zxlwq.eu.cc">
+            <div>
+              <p class="text-sm font-semibold">次域名</p>
+              <p class="text-xs text-slate-400">zxlwq.eu.cc</p>
+            </div>
+            <i class="fa-regular fa-copy text-slate-300"></i>
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="w-full py-6 px-4 text-center text-xs text-slate-400">
+      © 2026 科技刘 - 防失联发布页
+    </footer>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
